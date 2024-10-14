@@ -26,6 +26,12 @@ st.write(
     "Start writing an address, your dream vacation spot🏖️, or your favorite 🌮 shop below!"
 )
 
+api_key = (
+    st.secrets.google_maps_key.key
+    if st.secrets.google_maps_key.key
+    else input_key if input_key else ""
+)
+
 
 def get_places_autocomplete_json(txt_input):
     """
@@ -34,13 +40,7 @@ def get_places_autocomplete_json(txt_input):
     url = "https://places.googleapis.com/v1/places:autocomplete?fields=*"
     headers = {"Accept": "application/json", "Content-Type": "application/json"}
     data = {"input": txt_input, "includeQueryPredictions": True}
-    params = {
-        "key": (
-            st.secrets.google_maps_key.key
-            if st.secrets.google_maps_key.key
-            else input_key if input_key else ""
-        )
-    }
+    params = {"key": (api_key)}
     try:
         response = requests.post(
             url, headers=headers, json=data, params=params, timeout=10
@@ -92,7 +92,7 @@ def get_place_lat_lng(place_id):
     url = f"https://maps.googleapis.com/maps/api/place/details/json"
     params = {
         "place_id": place_id,
-        "key": (st.secrets.google_maps_key.key),
+        "key": (api_key),
         "fields": "geometry",
     }
     try:
