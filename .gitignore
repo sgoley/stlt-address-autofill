@@ -1,0 +1,9 @@
+# secrets
+.streamlit/
+
+# python
+.venv/
+
+# ide
+.idea/
+.vscode/
